@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // Scena
 const scene = new THREE.Scene();
@@ -13,6 +14,10 @@ camera.position.set(0, 2, 5);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Controls
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.update();
 
 // Luce
 const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -32,6 +37,10 @@ loader.load('/firstRoom.glb', (gltf) => {
 // Funzione di animazione
 function animate() {
     requestAnimationFrame(animate);
+
+    // required if controls.enableDamping or controls.autoRotate are set to true
+	controls.update();
+
     renderer.render(scene, camera);
 }
 animate();
